@@ -1,6 +1,10 @@
 
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -58,6 +62,23 @@ public class validNewUser extends HttpServlet {
 			//request.setAttribute("email_err", "Email has already been registered");
 			//if the email hasn't been taken, store information in database and login
 			
+			Connection conn;
+			PreparedStatement ps;
+			try {
+				Class.forName("com.mysql.jdbc.Driver"); //mySQL database connection
+				conn = DriverManager.getConnection("jdbc:mysql://localhost/DATABASENAME?user=root&password=rooat");
+				ps = conn.prepareCall("Select user, pass from TABLENAME where username=? and password=?");
+				
+				ps.setString(1, fname);
+				ps.setString(2, lname);
+				ps.setString(3, email);
+				ps.setString(4, password);
+			} catch (SQLException | ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			next = "/userProfile.jsp";
 			
 		}
 		
