@@ -1,3 +1,32 @@
 body {
 	text-align: center;
 }
+
+button {
+	height: 40px;
+	margin: 10px;
+	border-radius: 6px;
+	border: none;
+	text-align: center;
+	padding-right: 10px;
+	padding-left: 10px;
+	background-color: #abcdef;
+	font-size: 25px;
+}
+
+input {
+}
+
+label{
+display:inline-block;
+width:200px;
+text-align:right;
+
+}
+
+
+#textfields{
+border: 1px solid black;
+width:500px;
+margin:0px auto;
+}

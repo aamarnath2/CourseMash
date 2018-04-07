@@ -1,4 +1,4 @@
-
+package CS201GroupProject;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -28,40 +28,53 @@ public class validNewUser extends HttpServlet {
 		String password = request.getParameter("password");
 		
 		
-		boolean validLogin = true; //valid login if all information is filled out
+		boolean validSignUp = true; //valid login if all information is filled out
 		String next = null; //what will this jsp redirect to when done
 		
 		//first name provided
 		if (fname == null || fname.length() == 0) {
 			request.setAttribute("fname_err", "Please enter a first name");
     		next = "/SignUp.jsp";
-    		validLogin = false;
+    		validSignUp = false;
 		}
 		//last name provided
 		if(lname == null || lname.length() == 0) {
 			request.setAttribute("lname_err", "Please enter a first name");
     		next = "/SignUp.jsp";
-    		validLogin = false;
+    		validSignUp = false;
 		}
 		//email provided
 		if(email == null || email.length() == 0) {
 			request.setAttribute("email_err", "Please enter an email");
     		next = "/SignUp.jsp";
-    		validLogin = false;
+    		validSignUp = false;
 		}
 		//password provided
 		if(password == null || password.length() == 0) {
 			request.setAttribute("pass_err", "Please enter a password");
 			next = "/SignUp.jsp";
-			validLogin = false;
+			validSignUp = false;
 		}
 		
-		if(validLogin == true) {
+		if(validSignUp == true) {
 			//if they filled in all lines, now check for if email is taken or not
 			//if the email is taken, display error
 			//request.setAttribute("email_err", "Email has already been registered");
 			//if the email hasn't been taken, store information in database and login
-			
+/*			
+			if(JDBCQuery.doesUserExist(email)) {
+				request.setAttribute("email_err", "A user with this email already exists");
+				next = "/UserClassList.jsp";
+			}
+			else {
+				JDBCQuery.addUser(fname, lname, email, password);
+				request.getSession().setAttribute("currUser", JDBCQuery.getUserByEmail(email)); //change function name accordingly
+				request.getSession().setAttribute("signedIn", true);
+				next = "/UserClassList.jsp";
+			} */
+		
+		
+			/*
 			Connection conn;
 			PreparedStatement ps;
 			try {
@@ -77,25 +90,13 @@ public class validNewUser extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			*/
 			
-			next = "/userProfile.jsp";
-			
+			next = "/UserClassList.jsp";
 		}
 		
 		//final step
 		RequestDispatcher dispatch = getServletContext().getRequestDispatcher(next);
-		
-		try {
-			dispatch.forward(request,response);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ServletException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
+		dispatch.forward(request,response);
 	}
-
 }

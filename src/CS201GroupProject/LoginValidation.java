@@ -15,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 /**
  * Servlet implementation class LoginValidation
  */
@@ -25,32 +26,46 @@ public class LoginValidation extends HttpServlet {
  
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String username = request.getParameter("username"); //get parameters from form
+		String email = request.getParameter("emailAddress"); //get parameters from form
 		String password = request.getParameter("password");
 		
-		try {
-			String pageToForward;
-			Class.forName("com.mysql.jdbc.Driver");  // MySQL database connection
-		    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/DATABASENAME?user=root&password=root");    //need to edit based on database
-		    PreparedStatement ps = conn.prepareStatement("Select user,pass from TABLENAME where username=? and password=?"); //need to edit based on database
-		    ps.setString(1, username);
-		    ps.setString(2, password);
-		   
-		    ResultSet rs = ps.executeQuery(); //check if such a user exists
-		    if(rs.next()) { //if successful login
-		    		pageToForward = "/userProfile.jsp"; 
-		    }
-		    	else { //failed login
-		    		pageToForward = "/home.jsp";
-				request.setAttribute("loginError", "Invalid login credentials - please try again or sign up for an account if you don't have one");
-		    	}
-		    
-		    RequestDispatcher dispatch = getServletContext().getRequestDispatcher(pageToForward);
-			dispatch.forward(request,  response);
-			
-		} catch (SQLException | ClassNotFoundException e) {
-			e.printStackTrace();
+		boolean validLogin = true;
+		String pageToForward = null;
+		
+		if(email == null || email.length() == 0) {
+			request.setAttribute("email_err", "Please enter an email");
+			pageToForward = "/home.jsp";
+			validLogin = false;
 		}
+		
+		if(password == null || password.length() == 0) {
+			request.setAttribute("pass_err", "Please enter a password");
+			pageToForward = "/home.jsp";
+			validLogin = false;
+		}
+		/*
+		if(validLogin) {
+			if(JDBCQuery.doesUserExist(email)) {
+				if(JDBCQuery.validate(email, password)) {
+					request.getSession().setAttribute("currUser", JDBCQuery.getUserByEmail(email)); //change function name accordingly
+					request.getSession().setAttribute("signedIn", true);
+					pageToForward = "/UserClassList.jsp";
+				}
+				else {
+					request.setAttribute("pass_err", "Incorrect password");
+					pageToForward = "/home.jsp";
+				}
+			}
+			else {
+				request.setAttribute("email_err", "No user with this email exits");
+				pageToForward = "/home.jsp";
+			}
+		} */
+		else { 
+			pageToForward = "/UserClassList.jsp";
+		}
+		RequestDispatcher dispatch = getServletContext().getRequestDispatcher(pageToForward);
+		dispatch.forward(request,  response);
 	}
 
 }

@@ -20,21 +20,41 @@
 		form.setAttribute("action", "guestClassList.jsp");
 		form.submit();
 	}
+	
+
+	//Got API working
+	/*try {
+        var xhttp = new XMLHttpRequest();
+        const proxyurl = "https://cors-anywhere.herokuapp.com/";
+        xhttp.open("GET", proxyurl + "http://web-app.usc.edu/web/soc/api/depts/20181", false);
+        xhttp.send();
+        var response = JSON.parse(xhttp.response);
+        alert(xhttp.response);
+        console.log(response);
+    }
+    catch (error) {
+        alert(error.message);
+    } */
 </script>
 </head>
 <body>
 	<h1>CourseMash</h1>
 	<form id="homeForm" name="homeForm" method="POST" action="LoginValidation" > 
-		<div>
-			Username
-			<input type="text" name ="username" id="username"></input>
-		</div>
-		<div>
-			Password
-			<input type="text" name="password" password="username"></input>
+		<div id="textfields">
+			<div>
+				<label for="emailAddress">Email</label>
+				<input type="email" name="emailAddress" id="emailAddress"  value =${param.email!=null? param.email : ''}>
+				<span style="color: red;font-weight:bold; position:fixed; margin-top: 2px; margin-left: 2px;">${email_err!=null? email_err : ''}</span>
+			</div>
+			
+			<div>
+				<label for="pasword">Password</label>
+				<input type="password" name="password" id="password" value =${param.password!=null? param.password : ''}>
+				<span style="color: red;font-weight:bold; position:fixed; margin-top: 2px; margin-left: 2px;">${pass_err!=null? pass_err : ''}</span><br>
+			</div>
 		</div>
 		<div id="optionButtons">
-			<div><button type="submit">LOGIN</button></div>
+			<div><button type="submit">LOGIN</button> </div>
 			<div><button type="button" onclick="signup()">SIGN UP</button></div>
 			<div><button type="button" onclick="guest()">GUEST</button></div>
 		</div>
