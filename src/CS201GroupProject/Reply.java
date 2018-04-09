@@ -1,9 +1,16 @@
 import java.sql.Time;
-import java.util.List;
+import java.util.Vector;
 
 public class Reply {
-	private String fname;
-	private String lname;
-	private long time;
-	private String content;
+    private User replier;
+    private String content;
+    private long time;
+
+    public Reply( User u, String c ) {
+	replier = u;
+	content = c;
+	//add time
+    }
+
+    
 }
