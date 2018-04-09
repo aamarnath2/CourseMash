@@ -43,13 +43,13 @@
 		<div id="textfields">
 			<div>
 				<label for="emailAddress">Email</label>
-				<input type="email" name="emailAddress" id="emailAddress"  value =${param.email!=null? param.email : ''}>
+				<input type="email" name="emailAddress" id="emailAddress"  value =${param.emailAddress!=null? param.emailAddress : ''}>
 				<span style="color: red;font-weight:bold; position:fixed; margin-top: 2px; margin-left: 2px;">${email_err!=null? email_err : ''}</span>
 			</div>
 			
 			<div>
-				<label for="pasword">Password</label>
-				<input type="password" name="password" id="password" value =${param.password!=null? param.password : ''}>
+				<label for="pword">Password</label>
+				<input type="password" name="pword" id="pword" value =${param.pword!=null? param.pword : ''}>
 				<span style="color: red;font-weight:bold; position:fixed; margin-top: 2px; margin-left: 2px;">${pass_err!=null? pass_err : ''}</span><br>
 			</div>
 		</div>

@@ -27,25 +27,26 @@ public class LoginValidation extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String email = request.getParameter("emailAddress"); //get parameters from form
-		String password = request.getParameter("password");
+		String pword = request.getParameter("pword");
 		
 		boolean validLogin = true;
 		String pageToForward = null;
 		
 		if(email == null || email.length() == 0) {
+			request.setAttribute("emailAddresss", email);
 			request.setAttribute("email_err", "Please enter an email");
 			pageToForward = "/home.jsp";
 			validLogin = false;
 		}
 		
-		if(password == null || password.length() == 0) {
+		if(pword == null || pword.length() == 0) {
 			request.setAttribute("pass_err", "Please enter a password");
 			pageToForward = "/home.jsp";
 			validLogin = false;
 		}
-		/*
+		
 		if(validLogin) {
-			if(JDBCQuery.doesUserExist(email)) {
+		/*	if(JDBCQuery.doesUserExist(email)) {
 				if(JDBCQuery.validate(email, password)) {
 					request.getSession().setAttribute("currUser", JDBCQuery.getUserByEmail(email)); //change function name accordingly
 					request.getSession().setAttribute("signedIn", true);
@@ -59,10 +60,11 @@ public class LoginValidation extends HttpServlet {
 			else {
 				request.setAttribute("email_err", "No user with this email exits");
 				pageToForward = "/home.jsp";
-			}
-		} */
-		else { 
+			}*/
 			pageToForward = "/UserClassList.jsp";
+		}
+		else { 
+			pageToForward = "/home.jsp";
 		}
 		RequestDispatcher dispatch = getServletContext().getRequestDispatcher(pageToForward);
 		dispatch.forward(request,  response);
