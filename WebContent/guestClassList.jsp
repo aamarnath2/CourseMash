@@ -5,7 +5,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" type="text/css" href="style/guestClassList.css">
+<link rel="stylesheet" type="text/css" href="guestClassList.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <title>List of Classes</title>
 
 <script>
@@ -22,6 +23,7 @@
 <body onload="return addClasses();">
 	<div>
 		<h1>CourseMash</h1>
+		<i class="fa fa-pencil" style="font-size:48px;color:red"></i>
 	</div>
 	<div>
 	</div>
