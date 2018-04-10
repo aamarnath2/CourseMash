@@ -6,6 +6,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<title>CourseMash</title>
 	</head>
+	<link rel="stylesheet" type="text/css" href="UserClassList.css">
 	<body>
 	
 		<!-- Content is for the list of classes -->
@@ -13,7 +14,7 @@
 		
 		<!-- Form to add classes that has a button. This button will be the same size/look like a class -->
 		<form action="http://google.com">
-    		<input type="submit" id="addClassButton" value="+Add Class" />
+    		<input style="margin-top: 10px; font-size: 20px;background-color: black;color: white;"type="submit" id="addClassButton" value="+Add Class" />
 		</form>
 	</body>
 </html>
