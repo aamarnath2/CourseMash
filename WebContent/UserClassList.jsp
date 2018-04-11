@@ -23,7 +23,7 @@
 		<h1>CourseMash</h1>
 	
 		<!-- Logout buttona -->
-		<form action="/home.jsp">
+		<form action="home.jsp">
 			<input type="submit" id="logoutButton" value="Logout"/>
 		</form>
 		<!-- Content is for the list of classes -->
@@ -31,7 +31,7 @@
 		<div id="content"></div>
 		
 		<!-- Form to add classes that has a button. This button will be the same size/look like a class -->
-		<form action="/ClassSearch.jsp">
+		<form action="ClassSearch.jsp">
     		<input type="submit" id="addClassButton" value="+Add Class" />
 		</form>
 	</body>
