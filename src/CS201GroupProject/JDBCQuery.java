@@ -42,7 +42,7 @@ public class JDBCQuery {
 
 	// Database credentials
 	static final String USER = "root";
-	static final String PASS = "racecar9";
+	static final String PASS = "root";
 
 	  public static void connect() {
   		try {
