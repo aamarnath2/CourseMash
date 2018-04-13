@@ -1,11 +1,4 @@
-/* Scribe
- * 
- * Vincent Rodriguez
- * Michael Takla
- * Felipe Mansilla
- * Noah Feldman * 
- * 
- */
+/* CourseMash */
 
 package CS201GroupProject;
 
