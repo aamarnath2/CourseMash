@@ -2,16 +2,15 @@ import java.util.Vector;
 
 public class Post {
     private int postID; // unique under course
-    private User creator;
-    private String courseName;
+    private int userID;
     private String title;
     private String body;
     private Vector<Reply> replies;
     private Vector<User> followers;
 
-    public Post( User c, String n, String t, String b ){
-	creator = c;
-	courseName = n;
+    public Post( int n, int u, String t, String b ){
+	postID = n;
+	userID = u;
 	title = t;
 	body = b;
 	replies = new Vector<Reply>();
