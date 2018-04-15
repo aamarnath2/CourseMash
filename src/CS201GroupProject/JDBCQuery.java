@@ -33,7 +33,8 @@ public class JDBCQuery {
     // Users
     private final static String selectUserByEmail = "SELECT * FROM Users WHERE email=?";
     private final static String selectUserByUserID = "SELECT * FROM Users WHERE userID=?";
-    private final static String selectPassword = "SELECT password FROM Users WHERE email=?";
+    private final static String select
+	    = "SELECT password FROM Users WHERE email=?";
 
     // Users
     private final static String addUser = "INSERT INTO Users(fname, lname, email, password) VALUES(?, ?, ?, ?)";
@@ -370,9 +371,9 @@ public class JDBCQuery {
 
     private final static String selectPostFollowers = "SELECT userID FROM PostFollowers pf, Posts p, Users u WHERE p.postID=pf.postID AND u.userID=pf.userID AND p.postID=?";
 
-    public static Vector<int> getPostFollowers(int postID) {
-	connect():
-	Vector<int> followers = new Vector<int>();
+    public static Vector<Integer> getPostFollowers(int postID) {
+	connect();
+	Vector<Integer> followers = new Vector<Integer>();
 	try {
 	    PreparedStatement ps = conn.prepareStatement(selectPostFollowers);
 	    ps.setInt(1, postID);
