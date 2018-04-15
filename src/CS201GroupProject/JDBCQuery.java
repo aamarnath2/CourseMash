@@ -262,24 +262,22 @@ public class JDBCQuery {
 	return courses;
     }
 
-    private final static String selectCoursesByCourseID = "SELECT prefix, courseName, professor FROM Courses c WHERE c.courseID=?";
+    private final static String selectCourseByCourseID = "SELECT prefix, courseName, professor FROM Courses c WHERE c.courseID=?";
 
-    public static Vector<Course> getCoursesByCourseID( int courseID ) {
+    public static Course getCourseByCourseID( int courseID ) {
 	connect();
-	Vector<Course> courses = new Vector<Course>();
 	try {
-	    PreparedStatement ps = conn.prepareStatement(selectCoursesByCourseID);
+	    PreparedStatement ps = conn.prepareStatement(selectCourseByCourseID);
 	    ps.setInt(1, courseID);
 	    ResultSet result = ps.executeQuery();
 	    while(result.next()){
-		courses.add(new Course(courseID, result.getString("prefix"), result.getString("courseName"), result.getString("professor")));
+		return new Course(courseID, result.getString("prefix"), result.getString("courseName"), result.getString("professor"));
 	    }
 	} catch (SQLException e) {
 	    e.printStackTrace();
 	} finally {
 	    close();
 	}
-	return courses;
     }
 
     private final static String selectPostsByCourse = "SELECT postID, userID, title, body FROM Posts p, Courses c WHERE p.courseID=c.courseID AND c.courseID=?";
