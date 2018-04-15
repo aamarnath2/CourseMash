@@ -1,3 +1,5 @@
+package CS201GroupProject;
+
 import java.util.Vector;
 
 public class Course {
@@ -16,24 +18,29 @@ public class Course {
 	coursePosts = new Vector<Post>();
 	courseUsers = new Vector<User>();
     }
-
+    
+    
+    public int getCourseID() {
+    		return courseID;
+    }
+    
     public String getFullName() {
-	return prefix + " " + name;
+    		return  name;
     }
 
-    public String getProfesso() {
-	return prof;
-    }
+    public String getProfessor() {
+    		return prof;
+    	}
 
     public Vector<Post> getPosts() {
-	return coursePosts;
+    		return coursePosts;
     }
 
     public Vector<User> getUsers() {
-	return courseUsers;
+    		return courseUsers;
     }
 
     public boolean removeUser( User u ) {
-	return courseUsers.remove(u);
+    		return courseUsers.remove(u);
     }
 }
