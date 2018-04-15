@@ -33,8 +33,7 @@ public class JDBCQuery {
     // Users
     private final static String selectUserByEmail = "SELECT * FROM Users WHERE email=?";
     private final static String selectUserByUserID = "SELECT * FROM Users WHERE userID=?";
-    private final static String select
-	    = "SELECT password FROM Users WHERE email=?";
+    private final static String selectPassword = "SELECT password FROM Users WHERE email=?";
 
     // Users
     private final static String addUser = "INSERT INTO Users(fname, lname, email, password) VALUES(?, ?, ?, ?)";
@@ -242,11 +241,11 @@ public class JDBCQuery {
 	return titles;
     }
 
-    private final static String selectCoursesByUser = "SELEECT courseID FROM CourseUsers cu WHERE cu.userID=?";
+    private final static String selectCoursesByUser = "SELECT courseID FROM CourseUsers cu WHERE cu.userID=?";
 
-    public static Vector<int> getCoursesByUserID( int userID ){
+    public static Vector<Integer> getCoursesByUserID( int userID ){
 	connect();
-	Vector<int> courses = new Vector<int>();
+	Vector<Integer> courses = new Vector<Integer>();
 	try {
 	    PreparedStatement ps = conn.prepareStatement(selectCoursesByUser);
 	    ps.setInt(1, userID);
@@ -265,19 +264,21 @@ public class JDBCQuery {
     private final static String selectCourseByCourseID = "SELECT prefix, courseName, professor FROM Courses c WHERE c.courseID=?";
 
     public static Course getCourseByCourseID( int courseID ) {
-	connect();
-	try {
-	    PreparedStatement ps = conn.prepareStatement(selectCourseByCourseID);
-	    ps.setInt(1, courseID);
-	    ResultSet result = ps.executeQuery();
-	    while(result.next()){
-		return new Course(courseID, result.getString("prefix"), result.getString("courseName"), result.getString("professor"));
-	    }
-	} catch (SQLException e) {
-	    e.printStackTrace();
-	} finally {
-	    close();
-	}
+		connect();
+		Course course = null;
+		try {
+		    PreparedStatement ps = conn.prepareStatement(selectCourseByCourseID);
+		    ps.setInt(1, courseID);
+		    ResultSet result = ps.executeQuery();
+		    while(result.next()){
+		    		course = new Course(courseID, result.getString("prefix"), result.getString("courseName"), result.getString("professor"));
+		    }
+		} catch (SQLException e) {
+		    e.printStackTrace();
+		} finally {
+		    close();
+		}
+		return course;
     }
 
     private final static String selectPostsByCourse = "SELECT postID, userID, title, body FROM Posts p, Courses c WHERE p.courseID=c.courseID AND c.courseID=?";
