@@ -242,19 +242,39 @@ public class JDBCQuery {
 	return titles;
     }
 
-    private final static String selectCoursesByUser = "SELEECT courseID, prefix, courseName, proffesor FROM Courses c, Users u, CourseUsers cu WHERE c.courseID=cu.courseID AND u.userID=cu.userID AND u.userID=?";
+    private final static String selectCoursesByUser = "SELEECT courseID FROM CourseUsers cu WHERE cu.userID=?";
 
-    public static Vector<Course> getCoursesByUserID( int userID ){
+    public static Vector<int> getCoursesByUserID( int userID ){
 	connect();
-	Vector<Course> courses = new Vector<Course>();
+	Vector<int> courses = new Vector<int>();
 	try {
 	    PreparedStatement ps = conn.prepareStatement(selectCoursesByUser);
 	    ps.setInt(1, userID);
 	    ResultSet result = ps.executeQuery();
 	    while(result.next()){
-		courses.add(new Course(result.getInt("courseID"), result.getString("prefix"), result.getString("courseName"), result.getString("professor")));
+		courses.add(result.getInt("courseID"));
 	    }
 	} catch( SQLException e ){
+	    e.printStackTrace();
+	} finally {
+	    close();
+	}
+	return courses;
+    }
+
+    private final static String selectCoursesByCourseID = "SELECT prefix, courseName, professor FROM Courses c WHERE c.courseID=?";
+
+    public static Vector<Course> getCoursesByCourseID( int courseID ) {
+	connect();
+	Vector<Course> courses = new Vector<Course>();
+	try {
+	    PreparedStatement ps = conn.prepareStatement(selectCoursesByCourseID);
+	    ps.setInt(1, courseID);
+	    ResultSet result = ps.executeQuery();
+	    while(result.next()){
+		courses.add(new Course(courseID, result.getString("prefix"), result.getString("courseName"), result.getString("professor")));
+	    }
+	} catch (SQLException e) {
 	    e.printStackTrace();
 	} finally {
 	    close();
