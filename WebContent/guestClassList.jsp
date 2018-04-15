@@ -13,23 +13,27 @@
 
 <%
 	Vector<Course> temp = JDBCQuery.getallCourses();
-	Vector<String> tempList = new Vector<String>();
-	for(int i = 0; i < temp.size(); i++) {
-		tempList.add(temp.get(i).getFullName());
-	}
 %>
 
 
 
 <script>
 	function addClasses() {
-		var size = <%= tempList.size() %>;
+		var size = <%= temp.size() %>;
 		var list = document.getElementById('classList');
 		
-	<%	for(int i = 0; i < tempList.size(); i++) { %>
-			var elem = document.createElement("li");
-			elem.innerText = "<%=tempList.get(i) %>";
-			list.appendChild(elem);
+	<%	for(int i = 0; i < temp.size(); i++) { %>
+			var listElem = document.createElement("li");
+			var div = document.createElement("div");
+			div.setAttribute("class", "classItem");
+			listElem.appendChild(div);
+			var className = document.createElement("h3");
+			className.innerText = "<%= temp.get(i).getFullName() %>";
+			div.appendChild(className);
+			var professor = document.createElement("h3");
+			professor.innerText = "<%= temp.get(i).getProfessor() %>";
+			div.appendChild(professor);
+			list.appendChild(listElem);
 	<%	} %>
 	}
 </script>
