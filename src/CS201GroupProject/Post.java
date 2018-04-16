@@ -1,3 +1,5 @@
+package CS201GroupProject;
+
 import java.util.Vector;
 
 public class Post {
@@ -17,14 +19,14 @@ public class Post {
 	followers = new Vector<User>();
     }
 
-    public String getCreatorName() {
-	return creator.getName();
+    public int getPostID() {
+    		return postID;
     }
-
-    public String getCourse() {
-	return courseName();
+    
+    public int getUserID() {
+    		return userID;
     }
-
+    
     public String getTitle() {
 	return title;
     }
