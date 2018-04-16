@@ -43,17 +43,22 @@
 			button.type = "submit";
 			button.innerText= "Add";
 			form.appendChild(button);
+			
+			var span = document.createElement("span");
+			form.appendChild(span);
+			span.style = "color: red;font-weight:bold; position:fixed; margin-top: 2px; margin-left: 2px;";
+			
+			span.innerHTML = "${add_err!=null? add_err : ''}";
 			var hidden = document.createElement("input");
 			hidden.type = "hidden";
 			hidden.name = "courseID";
 			hidden.value = "<%= temp.get(i).getCourseID() %>";
 			form.appendChild(hidden);
-			//var form = document.createElement("form");
-			//var button = document.createElement("input");
-			//button.setAttribute("type", "button");
-			//form.appendChild(button);
-			//listElem.appendChild(form);
-			//list.appendChild(listElem);
+			
+			
+			
+
+			
 	<%	} %>
 	}
 </script>
