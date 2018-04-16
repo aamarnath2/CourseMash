@@ -46,8 +46,8 @@ public class LoginValidation extends HttpServlet {
 		}
 		
 		if(validLogin) {
-		/*	if(JDBCQuery.doesUserExist(email)) {
-				if(JDBCQuery.validate(email, password)) {
+			if(JDBCQuery.doesUserExist(email)) {
+				if(JDBCQuery.validate(email, pword)) {
 					request.getSession().setAttribute("currUser", JDBCQuery.getUserByEmail(email)); //change function name accordingly
 					request.getSession().setAttribute("signedIn", true);
 					pageToForward = "/UserClassList.jsp";
@@ -60,8 +60,7 @@ public class LoginValidation extends HttpServlet {
 			else {
 				request.setAttribute("email_err", "No user with this email exits");
 				pageToForward = "/home.jsp";
-			}*/
-			pageToForward = "/UserClassList.jsp";
+			}
 		}
 		else { 
 			pageToForward = "/home.jsp";
