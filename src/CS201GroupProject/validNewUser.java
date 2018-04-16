@@ -56,43 +56,21 @@ public class validNewUser extends HttpServlet {
 			validSignUp = false;
 		}
 		
-		if(validSignUp == true) {
+		if(validSignUp) {
 			//if they filled in all lines, now check for if email is taken or not
 			//if the email is taken, display error
 			//request.setAttribute("email_err", "Email has already been registered");
 			//if the email hasn't been taken, store information in database and login
-/*			
 			if(JDBCQuery.doesUserExist(email)) {
 				request.setAttribute("email_err", "A user with this email already exists");
-				next = "/UserClassList.jsp";
+				next = "/SignUp.jsp";
 			}
 			else {
 				JDBCQuery.addUser(fname, lname, email, password);
 				request.getSession().setAttribute("currUser", JDBCQuery.getUserByEmail(email)); //change function name accordingly
 				request.getSession().setAttribute("signedIn", true);
 				next = "/UserClassList.jsp";
-			} */
-		
-		
-			/*
-			Connection conn;
-			PreparedStatement ps;
-			try {
-				Class.forName("com.mysql.jdbc.Driver"); //mySQL database connection
-				conn = DriverManager.getConnection("jdbc:mysql://localhost/DATABASENAME?user=root&password=rooat");
-				ps = conn.prepareCall("Select user, pass from TABLENAME where username=? and password=?");
-				
-				ps.setString(1, fname);
-				ps.setString(2, lname);
-				ps.setString(3, email);
-				ps.setString(4, password);
-			} catch (SQLException | ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			*/
-			
-			next = "/UserClassList.jsp";
+			} 
 		}
 		
 		//final step
