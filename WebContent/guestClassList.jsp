@@ -1,63 +1,53 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="CS201GroupProject.JDBCQuery, CS201GroupProject.Course, java.util.Vector" %>
-
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="style/guestClassList.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <title>List of Classes</title>
-
-
+<%@ page import="java.util.*"%>
+<%@ page import="java.io.*"%>
+<%@ page import="CS201GroupProject.JDBCQuery"%>
+<%@ page import="CS201GroupProject.Course"%>
 <%
-	Vector<Course> temp = JDBCQuery.getallCourses();
+	Vector<Course> allCourses = new Vector<Course>();
+	allCourses = JDBCQuery.getallCourses();
 %>
-
-
-
-<script>
-	function addClasses() {
-		var size = <%= temp.size() %>;
-		var list = document.getElementById('classList');
-		
-	<%	for(int i = 0; i < temp.size(); i++) { %>
-			var listElem = document.createElement("li");
-			var div = document.createElement("div");
-			div.setAttribute("class", "classItem");
-			listElem.appendChild(div);
-			var className = document.createElement("h3");
-			className.innerText = "<%= temp.get(i).getFullName() %>";
-			div.appendChild(className);
-			var professor = document.createElement("h3");
-			professor.innerText = "<%= temp.get(i).getProfessor() %>";
-			div.appendChild(professor);
-			list.appendChild(listElem);
-	<%	} %>
-	}
-</script>
 
 </head>
 
-<body onload="addClasses()">
+<body onload="return addClasses();">
 	<div>
 		<h1>CourseMash</h1>
-		<i class="fa fa-pencil" style="font-size:48px;color:red"></i>
 	</div>
-	<div>
-	</div>
-	
+	<div></div>
+
 	<div id="dialog-window">
 
-		  <div id="scrollable-content">
-		    <ul id="classList">
-		    </ul>
-		  </div>
+		<div id="scrollable-content">
+			<div id="content"></div>
+		</div>
+		<script>
+			var CourseInfo = '';
+			var CourseProf = '';
 
-  <div id="footer">
-  </div>
+			var table = '<table class="courseTable"><tr>';
+			var newLine = '</tr><tr>';
 
-	</div>
+			<% for (int i = 0; i < allCourses.size(); i++) { %>
+
+				var courseName = "<%= allCourses.get(i).getFullName() %>";
+				var courseID = "<%= allCourses.get(i).getCourseID() %>";
+				var professors = " <%= allCourses.get(i).getProfessor() %> ";
+				var startForm = '<a href="ClassPage.jsp?classID=' + courseID +  '">';
+				var endForm = '</a>';
+				CourseInfo = courseName + '<br>' + professors + '<br>';
+				table += (startForm + CourseInfo + endForm + newLine + '<br>');
+	<%		} %>
+			table += '</table>';
+			document.getElementById("content").innerHTML = table; //display table
+		</script>
 </body>
 </html>
