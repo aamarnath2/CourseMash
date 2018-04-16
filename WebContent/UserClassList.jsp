@@ -21,27 +21,12 @@
 			//Users data = (Users)session.getAttribute("newData");
 			
 			User currentUser = ((User)request.getSession().getAttribute("currUser"));
-			Vector<Course> userCourses = JDBCQuery.getCoursesByUserID(currentUser.getUserID());
-		
+			Vector<Integer> userCourses = JDBCQuery.getCoursesByUserID(currentUser.getUserID());
 		%>
 		
-		<script>
-			function addClasses(){
-				var size = <%= userCourses.size() %>;
-				var list = document.getElementById('classList');
-				
-				<% for(int i = 0; i < userCourses.size(); i++){ %>
-					
-					var elem = document.createElement("li");
-					//elem.attachEvent('onclick', clickEvent);
-					elem.innerText = " <%= userCourses.get(i).getFullName() %> ";
-					list.appendChild(elem);
-					
-			<%	}  %>
-			}
-		</script>
+	
 	</head>
-	<body onload="addClasses()">
+	<body>
 		<!-- Title -->
 		<h1>CourseMash</h1>
 	
@@ -52,8 +37,30 @@
 		<!-- Content is for the list of classes -->
 		<!-- Have a form created with a list of submit buttons that redirects to a servlet to the CoursePage.jsp -->
 		<div id="dialog-window">
-			<ul id="classList">
-			</ul>
+			<div id="scrollable-content">
+				<div id="content"></div>
+					<script>
+						var CourseInfo = '';
+						var CourseProf = '';
+			
+						var table = '<table class="courseTable"><tr>';
+						var newLine = '</tr><tr>';
+			
+			
+						<% for (int i = 0; i < userCourses.size(); i++) { %>
+							
+							var courseName = "<%= JDBCQuery.getCourseByCourseID(userCourses.get(i)).getFullName() %>";
+							var courseID = "<%= JDBCQuery.getCourseByCourseID(userCourses.get(i)).getCourseID() %>";
+							var professors = "<%= JDBCQuery.getCourseByCourseID(userCourses.get(i)).getProfessor() %>";
+							var start = '<a href="ClassPage.jsp?classID=' + courseID +  '">';
+							var end = '</a>';
+							CourseInfo = courseName + '<br>' + professors + '<br>';
+							table += (start + CourseInfo + end + newLine + '<br>');
+						<%		} %>
+						table += '</table>';
+						document.getElementById("content").innerHTML = table; //display table
+					</script>
+			</div>
 		</div>
 		
 		<!-- Form to add classes that has a button. This button will be the same size/look like a class -->
