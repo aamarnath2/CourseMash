@@ -1,3 +1,27 @@
+
+body {
+  padding-top: 10px;
+  text-align: left;
+  padding-left: 100px;
+  font-family: monaco, monospace;
+ 
+  background-image: 
+linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px),
+linear-gradient(#eee .1em, transparent .1em);
+
+  background-size: 100% 1.2em;
+}
+h1, h2 {
+  display: inline-block;
+  background: #fff;
+
+}
+
+span {
+  background: #fd0;
+}
+
+
 #dialog-window {
   height: 200px;
   border: 1px black solid;
@@ -11,6 +35,7 @@
 #footer {
   height:20px;
 }
+
 a:link, a:visited {
     background-color: #f44336;
     color: white;
@@ -23,13 +48,4 @@ a:link, a:visited {
 
 a:hover, a:active {
     background-color: red;
-}
-
-#addClassButton{
-	 background-color: #f44336;
-    color: white;
-    padding: 14px 25px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
 }
