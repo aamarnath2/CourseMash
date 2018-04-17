@@ -407,4 +407,22 @@ public class JDBCQuery {
 	}
 	return followers;
     }
+
+    private final static String selectPostByPostID = "SELECT courseID, userID, title, body FROM Posts p WHERE p.postID=?";
+
+    public static Post getPostByPostID( int postID ) {
+	connect();
+	try {
+	    PreparedStatement ps = conn.prepareStatement(selectPostByPostID);
+	    ps.setInt(1, postID);
+	    ResultSet result = ps.executeQuery();
+	    while( result.next() ){
+		return new Post(postID, result.getInt("userID"), result.getString("title"), result.getString("body"));
+	    }
+	} catch(SQLException e) {
+	    e.printStackTrace();
+	} finally {
+	    close();
+	}
+    }
 }

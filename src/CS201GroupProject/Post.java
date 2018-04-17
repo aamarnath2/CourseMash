@@ -7,16 +7,12 @@ public class Post {
     private int userID;
     private String title;
     private String body;
-    private Vector<Reply> replies;
-    private Vector<User> followers;
 
     public Post( int n, int u, String t, String b ){
 	postID = n;
 	userID = u;
 	title = t;
 	body = b;
-	replies = new Vector<Reply>();
-	followers = new Vector<User>();
     }
 
     public int getPostID() {
@@ -35,19 +31,4 @@ public class Post {
 	return body;
     }
 
-    public Vector<Reply> getReplies() {
-	return replies;
-    }
-
-    public Vector<User> getFollowers() {
-	return followers;
-    }
-
-    public void addReply( Reply r ) {
-	replies.add(r);
-    }
-
-    public void addFollower( User u ){
-	followers.add(u);
-    }
 }
