@@ -3,10 +3,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="home.css">
+<link rel="stylesheet" type="text/css" href="style/home.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>CourseMash</title>
+
+<% session.setAttribute("currUser",  null); %>
+
 <script>
 	function signup() {
 		var form = document.getElementById("homeForm");
@@ -16,6 +19,7 @@
 	}
 	
 	function guest() {
+		
 		var form = document.getElementById("homeForm");
 		form.setAttribute("type", "submit");
 		form.setAttribute("action", "guestClassList.jsp");
@@ -23,30 +27,6 @@
 	}
 </script>
 </head>
-	<style>
-	  body {
-	  padding-top: 80px;
-	  text-align: center;
-	  font-family: monaco, monospace;
-	 
-	  background-image: 
-	linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px),
-	linear-gradient(#eee .1em, transparent .1em);
-
-	  background-size: 100% 1.2em;
-	}
-	h1 {
-	  display: inline-block;
-	  background: #fff;
-	  font-size: 60px
-	}
-	#textfields, #password {
-	  margin-bottom: 20px;
-	}
-	.button{
-	}
-
-	</style>
 <body>
 	<h1>CourseMash</h1>
         <i class="fa fa-pencil" style="font-size:48px;color:red"></i>
