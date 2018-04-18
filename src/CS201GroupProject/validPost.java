@@ -19,7 +19,7 @@ public class validPost extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String title = request.getParameter("title");
 		String body = request.getParameter("body");
-		String courseNum = request.getParameter("courseID");
+		String courseNum = request.getParameter("classid");
 		Integer courseID = Integer.parseInt(courseNum);
 		User currUser = ((User)request.getSession().getAttribute("currUser"));
 		
