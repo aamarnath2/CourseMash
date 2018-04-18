@@ -20,9 +20,7 @@ public class GetPost extends HttpServlet {
   
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String postNum = request.getParameter("postid");
-		System.out.println(postNum);
-		int postID = Integer.parseInt(postNum);
-		System.out.println(postID);
+		int postID = Integer.parseInt(postNum);	
 		Post thisPost = JDBCQuery.getPostByPostID(postID);
 		
 		
