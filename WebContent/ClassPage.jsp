@@ -4,6 +4,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<link rel="stylesheet" type="text/css" href="style/ClassPage.css">
 		<title>CourseMash</title>
 		<%@ page import="java.util.*" %>
 		<%@ page import="java.io.*" %>
@@ -16,41 +17,70 @@
 		<% 
 			User currUser = ((User)request.getSession().getAttribute("currUser"));
 			String currClass = request.getParameter("classid"); //whatever gets passed through
-			int classid = ((int)Integer.parseInt(currClass));
+			Integer classid = (Integer.parseInt(currClass));
 			Vector<Post> posts = JDBCQuery.getPostsByCourseID(classid); //vector of posts
-
+			
+		
 		
 		%>
 		<script>
+			function postValidate() {
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+				    if (this.readyState == 4 && this.status == 200) {
+				       // Typical action to be performed when the document is ready:
+				    	   if(xhttp.responseText === "valid") {
+				    		   location.reload();
+				    	   }
+				    	   else {
+				    		   document.getElementById("postDetails").innerHTML = xhttp.responseText;
+				    	   }
+				    }
+				};
+				var title = document.getElementById("title").value;
+				var body = document.getElementById("body").value;
+				xhttp.open('GET', '/CS201Project/validPost?title=' + title + '&body=' + body + '&courseID=' + <%= currClass %>, true);
+				xhttp.send();
+			}
+		</script>
+		
+		<script>
 			
 			function createPost(){
+				if(<%= currUser == null %>) {
+					return;
+				}
+				
+				var courseID = <%= classid %>;
+				var newLine = '<br>';
 				var code = '';
-				var startForm = '<form id="newPostForm" method="GET" action="validPost">';
+				var startForm = '<form name="newPostForm" id="newPostForm" method="GET" action="validPost">';
 				//title, body
 				var endForm = '</form>';
 				//title code
-				var title = '<input type="text" name="title" id="title" placeholder="title" value =${param.title!=null? param.title : ''}>';
-				var titleError = '<span style="color: red;font-weight:bold; position:fixed; margin-top: 2px; margin-left: 2px;">${title_err!=null? title_err : ''}</span>';
+				var title = '<input type="text" name="title" id="title" placeholder="title">';
+				//var titleError = '<span style="color: red;font-weight:bold; position:fixed; margin-top: 2px; margin-left: 2px;">${title_err!=null? title_err : ''}</span>';
 				//body
-				var body = '<input type="text" name="body" id="body" placeholder = "body" value=${param.body!=null? param.body : ''}>';
-				var bodyError = '<span style="color: red;font-weight:bold; position:fixed; margin-top: 2px; margin-left: 2px;">${body_err!=null? body_err : ''}</span>';
+				//var body = '<input type="text" name="body" id="body" placeholder = "body">';
+				var body = '<textarea name="comment" id ="body" form="newPostForm"></textarea>';
+				//var bodyError = '<span style="color: red;font-weight:bold; position:fixed; margin-top: 2px; margin-left: 2px;">${body_err!=null? body_err : ''}</span>';
 				//submit
-				var submit = '<input type="submit" id="submit" value="submit">';
+				var submit = '<input type="button" id="button" onclick="postValidate()" value="Submit">';
 				
-				var classid = '<input type="hidden" name="classid" value=' + <%= currClass%> + '>';
+				var classid = '<input type="hidden" name="courseID" value="' + courseID + '">';
 				
 				code += startForm;
-				code += title;
-				code += titleError;
-				code += (body + bodyError);
-				code += classid;
+				code += (title + newLine);
+				code += (body + newLine);
 				code += submit;
+				code += classid;
 				code += endForm;
-				console.log("hello");
+				
 				document.getElementById("postDetails").innerHTML = code;
 				//need to send classid as a hidden
 			}
 		</script>
+	
 	</head>
 	<body>
 		<h1> <a href="UserClassList.jsp"> CourseMash </a> </h1>
@@ -79,13 +109,19 @@
 				table += (startButton + postTitle + endButton + newLine + '<br>');
 	<%		} %>
 			table += '</table>';
-			table += '<button id="createPost" onclick="createPost()">Create New Post</button>';
+			
+			if(<%= currUser != null %>) {
+				table += '<button id="createPost" onclick="createPost()">Create New Post</button>';
+			}
 			document.getElementById("content").innerHTML = table; //display table
 		</script>
 		
 		<div id="postDetails"></div>
 		<script>
 			function getPost(postID) {
+				if(<%= currUser == null %>) {
+					return;
+				}
 				var xhttp = new XMLHttpRequest();
 				xhttp.onreadystatechange = function() {
 				    if (this.readyState == 4 && this.status == 200) {
