@@ -17,31 +17,38 @@
 			User currUser = ((User)request.getSession().getAttribute("currUser"));
 			String currClass = request.getParameter("classid"); //whatever gets passed through
 			int classid = ((int)Integer.parseInt(currClass));
-			//Vector<Post> posts = JDBCQuery.getPostsByCourseID(classid); //vector of posts
-			
-			//TEST FOR POSTS
-			Vector<Post> posts = new Vector<Post>();
-			Post testPost = new Post(1,3,"Title", "Body Test");
-			Post testPost2 = new Post(2,3,"Second Post", "Body Post");
-			posts.add(testPost);
-			posts.add(testPost2);
+			Vector<Post> posts = JDBCQuery.getPostsByCourseID(classid); //vector of posts
+
 		
 		%>
 		<script>
-			function getPost(postID){
-				//DISPLAY POST
-				//XHML REQUEST
-				var xhttp = new XMLHttpRequest();
-				xhttp.open("GET", "validate.jsp?classid=" + postID, false);
-				xhttp.send();
-				if (xhttp.responseText.trim().length > 0) {
-					document.getElementById("postDetails").innerHTML = xhttp.responseText;
-					return false;
-				}
-			}
 			
 			function createPost(){
+				var code = '';
+				var startForm = '<form id="newPostForm" method="GET" action="validPost">';
+				//title, body
+				var endForm = '</form>';
+				//title code
+				var title = '<input type="text" name="title" id="title" placeholder="title" value =${param.title!=null? param.title : ''}>';
+				var titleError = '<span style="color: red;font-weight:bold; position:fixed; margin-top: 2px; margin-left: 2px;">${title_err!=null? title_err : ''}</span>';
+				//body
+				var body = '<input type="text" name="body" id="body" placeholder = "body" value=${param.body!=null? param.body : ''}>';
+				var bodyError = '<span style="color: red;font-weight:bold; position:fixed; margin-top: 2px; margin-left: 2px;">${body_err!=null? body_err : ''}</span>';
+				//submit
+				var submit = '<input type="submit" id="submit" value="submit">';
 				
+				var classid = '<input type="hidden" name="classid" value=' + <%= currClass%> + '>';
+				
+				code += startForm;
+				code += title;
+				code += titleError;
+				code += (body + bodyError);
+				code += classid;
+				code += submit;
+				code += endForm;
+				console.log("hello");
+				document.getElementById("postDetails").innerHTML = code;
+				//need to send classid as a hidden
 			}
 		</script>
 	</head>
@@ -65,16 +72,30 @@
 				var postTitle = "<%= posts.get(i).getTitle() %>";
 				var postID = "<%= posts.get(i).getPostID() %>";
 				
-				var startButton = '<button onclick="getPost("' + postID + '")">';
+				var startButton = '<button onclick="getPost(' + postID + ')">';
 				var endButton = '</button>';
 				var startInput = '<i';
 
 				table += (startButton + postTitle + endButton + newLine + '<br>');
 	<%		} %>
 			table += '</table>';
+			table += '<button id="createPost" onclick="createPost()">Create New Post</button>';
 			document.getElementById("content").innerHTML = table; //display table
 		</script>
 		
 		<div id="postDetails"></div>
+		<script>
+			function getPost(postID) {
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+				    if (this.readyState == 4 && this.status == 200) {
+				       // Typical action to be performed when the document is ready:
+				       document.getElementById("postDetails").innerHTML = xhttp.responseText;
+				    }
+				};
+				xhttp.open('GET', '/CS201Project/GetPost?postid=' + postID, true);
+				xhttp.send();
+			}
+		</script>
 	</body>
 </html>
