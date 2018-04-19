@@ -12,15 +12,17 @@
 <%@ page import="CS201GroupProject.JDBCQuery"%>
 <%@ page import="CS201GroupProject.Course"%>
 <%
+	//vector of all the courses the user is in
 	Vector<Course> allCourses = new Vector<Course>();
 	allCourses = JDBCQuery.getallCourses();
 %>
-
 </head>
 
-<body onload="return addClasses();">
+<body>
 	<div>
-		<h1>CourseMash</h1>
+		<h1>
+			<a href="home.jsp">CourseMash</a>
+		</h1>
 	</div>
 	<div></div>
 
@@ -30,24 +32,24 @@
 			<div id="content"></div>
 		</div>
 		<script>
+			//get necessary information for all courses
 			var CourseInfo = '';
 			var CourseProf = '';
+			var code = '';
+			
+			//iterate through to display course info
+			<%for (int i = 0; i < allCourses.size(); i++) {%>
 
-			var table = '<table class="courseTable"><tr>';
-			var newLine = '</tr><tr>';
-
-			<% for (int i = 0; i < allCourses.size(); i++) { %>
-
-				var courseName = "<%= allCourses.get(i).getFullName() %>";
-				var courseID = "<%= allCourses.get(i).getCourseID() %>";
-				var professors = " <%= allCourses.get(i).getProfessor() %> ";
-				var startForm = '<a href="ClassPage.jsp?classID=' + courseID +  '">';
-				var endForm = '</a>';
-				CourseInfo = courseName + '<br>' + professors + '<br>';
-				table += (startForm + CourseInfo + endForm + newLine + '<br>');
-	<%		} %>
-			table += '</table>';
-			document.getElementById("content").innerHTML = table; //display table
+				var courseName = "<%=allCourses.get(i).getFullName()%>";
+				var courseID = "<%=allCourses.get(i).getCourseID()%>";
+				var professors = "<%=allCourses.get(i).getProfessor()%>";
+				
+			var startForm = '<a id="courses" href="ClassPage.jsp?classid=' + courseID + '">';
+			var endForm = '</a>';
+			CourseInfo = courseName + '<br>' + professors + '<br>';
+			code += (startForm + CourseInfo + endForm + '<br>');
+		<%}%>
+			document.getElementById("content").innerHTML = code; //display table
 		</script>
 </body>
 </html>
