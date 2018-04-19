@@ -27,7 +27,7 @@ public class Post {
 	return title;
     }
 
-    public String getBodY() {
+    public String getBody() {
 	return body;
     }
 
