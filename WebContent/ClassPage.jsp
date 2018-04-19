@@ -39,7 +39,7 @@
 				};
 				var title = document.getElementById("title").value;
 				var body = document.getElementById("body").value;
-				xhttp.open('GET', '/CS201Project/validPost?title=' + title + '&body=' + body + '&courseID=' + <%= currClass %>, true);
+				xhttp.open('GET', 'validPost?title=' + title + '&body=' + body + '&courseID=' + <%= currClass %>, true);
 				xhttp.send();
 			}
 		</script>
@@ -129,7 +129,7 @@
 				       document.getElementById("postDetails").innerHTML = xhttp.responseText;
 				    }
 				};
-				xhttp.open('GET', '/CS201Project/GetPost?postid=' + postID, true);
+				xhttp.open('GET', 'GetPost?postid=' + postID, true);
 				xhttp.send();
 			}
 		</script>
