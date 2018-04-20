@@ -332,6 +332,11 @@ public class JDBCQuery {
 		    ps.setString(3, title);
 		    ps.setString(4, body);
 		    ps.executeUpdate();
+		    ps = conn.prepareStatement("SELECT MAX(postID) FROM Posts");
+		    ResultSet result = ps.executeQuery();
+		    while(result.next()){
+			this.addPostFollower(result.getInt("MAX(postID)"), userID);
+		    }
 		} catch (SQLException e) {
 		    e.printStackTrace();
 		} finally {
@@ -349,6 +354,7 @@ public class JDBCQuery {
 		    ps.setInt(2, postID);
 		    ps.setString(3, reply);
 		    ps.executeUpdate();
+		    this.addPostFollower( postID, userID );
 		} catch (SQLException e) {
 		    e.printStackTrace();
 		} finally {
