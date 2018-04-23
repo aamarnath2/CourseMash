@@ -11,24 +11,24 @@
 		<%@ page import="CS201GroupProject.Course"%>
 		<%@ page import="CS201GroupProject.User"%>
 		<%@ page import= "javax.servlet.http.HttpSession" %>
-		<%!  %>
 		<%
-			//private static Vector<Integer> getUserEnrollments2(int userID) {
-			//this returns a vector of classIDs that are associated with the userID
-			//iterate through the vector and get the class objects associated with each course
-			//String name, string course prefix, professor, etc.
-			//HttpSession session = request.getSession();
-			//Users data = (Users)session.getAttribute("newData");
-			
+			//get the current user and a vector of the class ids that the user is enrolled in
 			User currentUser = ((User)request.getSession().getAttribute("currUser"));
 			Vector<Integer> userCourses = JDBCQuery.getCoursesByUserID(currentUser.getUserID());
-		%>
-		
-	
+			
+			/*
+				VARIABLES FOR CSS:
+					id=courses [all course buttons]
+					id="title" [courseMash title]
+					id=scrollable-content [scrollable course list]\
+					id=content [contains all buttons]	
+					id=addClassButton [add class button]
+			*/
+		%>	
 	</head>
 	<body>
 		<!-- Title -->
-		<h1>CourseMash</h1>
+		<h1 id="title">CourseMash</h1>
 	
 		<!-- Logout button -->
 		<form action="home.jsp" method="POST">
@@ -46,13 +46,13 @@
 						var table = '<table class="courseTable"><tr>';
 						var newLine = '</tr><tr>';
 			
-			
+						//iterate through to display all currently enrolled classes													
 						<% for (int i = 0; i < userCourses.size(); i++) { %>
 							
 							var courseName = "<%= JDBCQuery.getCourseByCourseID(userCourses.get(i)).getFullName() %>";
 							var courseID = "<%= JDBCQuery.getCourseByCourseID(userCourses.get(i)).getCourseID() %>";
 							var professors = "<%= JDBCQuery.getCourseByCourseID(userCourses.get(i)).getProfessor() %>";
-							var start = '<a href="ClassPage.jsp?classID=' + courseID +  '">';
+							var start = '<a id="courses" href="ClassPage.jsp?classid=' + courseID +  '">';
 							var end = '</a>';
 							CourseInfo = courseName + '<br>' + professors + '<br>';
 							table += (start + CourseInfo + end + newLine + '<br>');
