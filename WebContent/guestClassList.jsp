@@ -15,22 +15,32 @@
 	//vector of all the courses the user is in
 	Vector<Course> allCourses = new Vector<Course>();
 	allCourses = JDBCQuery.getallCourses();
+	
+	/*
+		VARIABLES FOR CSS:
+			id=courses [all course buttons]
+			id="title" [courseMash title]
+			id=scrollable-content [scrollable course list]\
+			id=content [contains all buttons]	
+	*/
 %>
 </head>
 
 <body>
 	<div>
 		<h1>
-			<a href="home.jsp">CourseMash</a>
+			<!-- Title of course that is an href back to the main page -->
+			<a id="title" href="home.jsp">CourseMash</a>
 		</h1>
 	</div>
 	<div></div>
 
 	<div id="dialog-window">
-
+		<!-- All classes HTML display -->
 		<div id="scrollable-content">
 			<div id="content"></div>
 		</div>
+		<!-- Script to get all course information -->
 		<script>
 			//get necessary information for all courses
 			var CourseInfo = '';
