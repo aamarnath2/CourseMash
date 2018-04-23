@@ -4,7 +4,6 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<link rel="stylesheet" type="text/css" href="style/ClassPage.css">
 		<title>CourseMash</title>
 		<%@ page import="java.util.*" %>
 		<%@ page import="java.io.*" %>
@@ -20,7 +19,24 @@
 			Integer classid = (Integer.parseInt(currClass));
 			Vector<Post> posts = JDBCQuery.getPostsByCourseID(classid); //vector of posts
 			
-		
+		/* 
+			VARIABLES FOR CSS:
+				id=title [courseMash title]
+				id=postInfo [button for each course]
+				id="scrollable-content" [window of courses]
+				id=content [all course buttons]
+				id=postDetails [content of post]
+				id=postTitle [post title]
+				id=postCreator [creator of post]
+				id=postBody [post body]
+				id=createPost [button to make a post for users]
+				
+				!!This is for when someone wants to create a post!!
+				id=title [title box for making post]
+				id=body [body comment box for making a post]
+				id=button [button to validate creating a post]
+				id=errorMessage [message to display an error]
+		*/
 		
 		%>
 		<script>
@@ -47,10 +63,6 @@
 		<script>
 			
 			function createPost(){
-				if(<%= currUser == null %>) {
-					return;
-				}
-				
 				var courseID = <%= classid %>;
 				var newLine = '<br>';
 				var code = '';
@@ -79,11 +91,23 @@
 				document.getElementById("postDetails").innerHTML = code;
 				//need to send classid as a hidden
 			}
+			
+			function getPost(postID) {
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+				    if (this.readyState == 4 && this.status == 200) {
+				       // Typical action to be performed when the document is ready:
+				       document.getElementById("postDetails").innerHTML = xhttp.responseText;
+				    }
+				};
+				xhttp.open('GET', 'GetPost?postid=' + postID, true);
+				xhttp.send();
+			}
 		</script>
 	
 	</head>
 	<body>
-		<h1> <a href="UserClassList.jsp"> CourseMash </a> </h1>
+		<h1> <a id="title" href="UserClassList.jsp"> CourseMash </a> </h1>
 		
 		
 		<div id="scrollable-content">
@@ -95,14 +119,19 @@
 
 			var table = '<table class="courseTable"><tr>';
 			var newLine = '</tr><tr>';
+			var startButton = '';
 
-
+			//iterate through all posts within the class and create buttons for them
 			<% for (int i = 0; i < posts.size(); i++) { %>
 
 				var postTitle = "<%= posts.get(i).getTitle() %>";
 				var postID = "<%= posts.get(i).getPostID() %>";
-				
-				var startButton = '<button onclick="getPost(' + postID + ')">';
+				<% if(currUser != null){ %>
+					startButton = '<button id="postInfo" onclick="getPost(' + postID + ')">';
+				<% } %>
+				<% if(currUser == null){ %>
+					startButton = '<button id="postInfo" onclick="guestPost()">';
+				<% } %>
 				var endButton = '</button>';
 				var startInput = '<i';
 
@@ -110,28 +139,15 @@
 	<%		} %>
 			table += '</table>';
 			
-			if(<%= currUser != null %>) {
-				table += '<button id="createPost" onclick="createPost()">Create New Post</button>';
-			}
+			//if the user is logged in, they can create posts 
+			<% if(currUser != null){ %>
+			table += '<button id="createPost" onclick="createPost()">Create New Post</button>';
+			<% } %>
 			document.getElementById("content").innerHTML = table; //display table
 		</script>
 		
 		<div id="postDetails"></div>
 		<script>
-			function getPost(postID) {
-				if(<%= currUser == null %>) {
-					return;
-				}
-				var xhttp = new XMLHttpRequest();
-				xhttp.onreadystatechange = function() {
-				    if (this.readyState == 4 && this.status == 200) {
-				       // Typical action to be performed when the document is ready:
-				       document.getElementById("postDetails").innerHTML = xhttp.responseText;
-				    }
-				};
-				xhttp.open('GET', 'GetPost?postid=' + postID, true);
-				xhttp.send();
-			}
 		</script>
 	</body>
 </html>
