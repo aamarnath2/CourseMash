@@ -301,7 +301,7 @@ public class JDBCQuery {
 		return posts;
     }
 
-    private final static String selectRepliesByPost = "SELECT userID, reply FROM Users u, Posts p, Replies r WHERE u.userID=r.userID AND p.postID=r.postID AND p.postID=?";
+    private final static String selectRepliesByPost = "SELECT userID, reply FROM Replies r WHERE r.postID=?";
 
     public static Vector<Reply> getRepliesByPostID( int postID ) {
 		connect();
