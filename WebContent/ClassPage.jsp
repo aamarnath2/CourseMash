@@ -60,7 +60,26 @@
 				xhttp.send();
 			}
 		</script>
-		
+		<script>
+			function replyValidate() {
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+				    if (this.readyState == 4 && this.status == 200) {
+				       // Typical action to be performed when the document is ready:
+				    	   if(xhttp.responseText === "valid") {
+				    		   location.reload();
+				    	   }
+				    	   else {
+				    		   document.getElementById("postDetails").innerHTML = xhttp.responseText;
+				    	   }
+				    }
+				};
+				var reply = document.getElementById("reply").value;
+				var postID = document.getElementById("replyPostId").value;
+				xhttp.open('GET', 'validReply?reply=' + reply + '&postid=' + postID + '&courseID=' + <%= currClass %>, true);
+				xhttp.send();
+			}
+		</script>
 		<script>
 			//Function for creating a post. This displays all the text boxes and such
 			function createPost(){
@@ -109,20 +128,15 @@
 		<script>
 			var CourseInfo = '';
 			var CourseProf = '';
-
 			var table = '<table class="courseTable"><tr>';
 			var newLine = '</tr><tr>';
-
-
-			<% for (int i = 0; i < posts.size(); i++) { %>
-
+			<% for (int i = posts.size()-1; i >= 0; i--) { %>
 				var postTitle = "<%= posts.get(i).getTitle() %>";
 				var postID = "<%= posts.get(i).getPostID() %>";
 				
 				var startButton = '<button onclick="getPost(' + postID + ')">';
 				var endButton = '</button>';
 				var startInput = '<i';
-
 				table += (startButton + postTitle + endButton + newLine + '<br>');
 	<%		} %>
 			table += '</table>';
