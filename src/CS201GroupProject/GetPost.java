@@ -31,7 +31,7 @@ public class GetPost extends HttpServlet {
 	    //get post information
 	    response.getWriter().write("<h2 id=\"postTitle\">" + thisPost.getTitle() + "</h2>");
 	    response.getWriter().write("<h3 id=\"postCreator\">" + (JDBCQuery.getUserByUserID(thisPost.getUserID())).getName() + "</h3>");
-	    response.getWriter().write("<p id=\"postBody\">" + thisPost.getBodY() + "</p>");
+	    response.getWriter().write("<p id=\"postBody\">" + thisPost.getBody() + "</p>");
 	    if(replies != null) {
 	    	//post replies
 		    for(int i = 0; i < replies.size(); i++) {
@@ -40,8 +40,9 @@ public class GetPost extends HttpServlet {
 		    }
 	    }
 	    response.getWriter().write("<form id=\"newReply\" method=\"GET\" action=\"validReply\">"
-	    							+ "<input type=\"text\" name=\"reply\" placeholder=\"reply\"><br>"
-	    							+ "<input type=\"submit\" id=\"replyButton\" value=\"Post Reply\">"
+	    							+ "<input type=\"text\" id=\"reply\" name=\"reply\" placeholder=\"reply\"><br>"
+	    							+ "<input type=\"button\" id=\"replyButton\" onclick=\"replyValidate()\" value=\"Post Reply\">" 
+	    							+ "<input type=\"hidden\" name=\"replyPostId\" id=\"replyPostId\" value= " + postID + ">"
 	    							+ "</form>");
 	   
 	}
