@@ -74,7 +74,8 @@
 				    	   }
 				    }
 				};
-				var reply = document.getElementById("reply").value;
+				var reply = document.getElementById("postReply").value;
+				console.log(reply);
 				var postID = document.getElementById("replyPostId").value;
 				xhttp.open('GET', 'validReply?reply=' + reply + '&postid=' + postID + '&courseID=' + <%= currClass %>, true);
 				xhttp.send();
