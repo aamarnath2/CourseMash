@@ -18,7 +18,7 @@ public class validReply extends HttpServlet {
        
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String message = request.getParameter("reply");
-		System.out.println(message);
+		System.out.println(message + "here");
 		String postNum = request.getParameter("postid");
 		System.out.println(postNum);
 		int postID = Integer.parseInt(postNum);
@@ -31,9 +31,6 @@ public class validReply extends HttpServlet {
 		boolean validReply = true;
 		
 		if(message.equals("") || message.equals(null)) {
-			request.setAttribute("title_err", "Please enter a title");
-			//request.setAttribute("classid", courseNum);
-			//pageToForward = "/ClassPage.jsp";
 			validReply = false;
 		}
 		
