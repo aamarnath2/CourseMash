@@ -19,7 +19,7 @@
 			Integer classid = (Integer.parseInt(currClass));
 			Vector<Post> posts = JDBCQuery.getPostsByCourseID(classid); //vector of posts
 			
-		/* 
+			/* 
 			VARIABLES FOR CSS:
 				id=title [courseMash title]
 				id=postInfo [button for each course]
@@ -40,6 +40,7 @@
 		
 		%>
 		<script>
+			//Function to validate if the user put in both a title and body for a post
 			function postValidate() {
 				var xhttp = new XMLHttpRequest();
 				xhttp.onreadystatechange = function() {
@@ -61,8 +62,12 @@
 		</script>
 		
 		<script>
-			
+			//Function for creating a post. This displays all the text boxes and such
 			function createPost(){
+				if(<%= currUser == null %>) {
+					return;
+				}
+				
 				var courseID = <%= classid %>;
 				var newLine = '<br>';
 				var code = '';
@@ -74,7 +79,7 @@
 				//var titleError = '<span style="color: red;font-weight:bold; position:fixed; margin-top: 2px; margin-left: 2px;">${title_err!=null? title_err : ''}</span>';
 				//body
 				//var body = '<input type="text" name="body" id="body" placeholder = "body">';
-				var body = '<textarea name="comment" id ="body" form="newPostForm"></textarea>';
+				var body = '<textarea name="comment" id ="body" placeholder="body" form="newPostForm"></textarea>';
 				//var bodyError = '<span style="color: red;font-weight:bold; position:fixed; margin-top: 2px; margin-left: 2px;">${body_err!=null? body_err : ''}</span>';
 				//submit
 				var submit = '<input type="button" id="button" onclick="postValidate()" value="Submit">';
@@ -91,23 +96,11 @@
 				document.getElementById("postDetails").innerHTML = code;
 				//need to send classid as a hidden
 			}
-			
-			function getPost(postID) {
-				var xhttp = new XMLHttpRequest();
-				xhttp.onreadystatechange = function() {
-				    if (this.readyState == 4 && this.status == 200) {
-				       // Typical action to be performed when the document is ready:
-				       document.getElementById("postDetails").innerHTML = xhttp.responseText;
-				    }
-				};
-				xhttp.open('GET', 'GetPost?postid=' + postID, true);
-				xhttp.send();
-			}
 		</script>
 	
 	</head>
 	<body>
-		<h1> <a id="title" href="UserClassList.jsp"> CourseMash </a> </h1>
+		<h1> <a href="UserClassList.jsp"> CourseMash </a> </h1>
 		
 		
 		<div id="scrollable-content">
@@ -119,19 +112,14 @@
 
 			var table = '<table class="courseTable"><tr>';
 			var newLine = '</tr><tr>';
-			var startButton = '';
 
-			//iterate through all posts within the class and create buttons for them
+
 			<% for (int i = 0; i < posts.size(); i++) { %>
 
 				var postTitle = "<%= posts.get(i).getTitle() %>";
 				var postID = "<%= posts.get(i).getPostID() %>";
-				<% if(currUser != null){ %>
-					startButton = '<button id="postInfo" onclick="getPost(' + postID + ')">';
-				<% } %>
-				<% if(currUser == null){ %>
-					startButton = '<button id="postInfo" onclick="guestPost()">';
-				<% } %>
+				
+				var startButton = '<button onclick="getPost(' + postID + ')">';
 				var endButton = '</button>';
 				var startInput = '<i';
 
@@ -139,15 +127,28 @@
 	<%		} %>
 			table += '</table>';
 			
-			//if the user is logged in, they can create posts 
-			<% if(currUser != null){ %>
-			table += '<button id="createPost" onclick="createPost()">Create New Post</button>';
-			<% } %>
+			if(<%= currUser != null %>) {
+				table += '<button id="createPost" onclick="createPost()">Create New Post</button>';
+			}
 			document.getElementById("content").innerHTML = table; //display table
 		</script>
 		
 		<div id="postDetails"></div>
 		<script>
+			function getPost(postID) {
+				if(<%= currUser == null %>) {
+					return;
+				}
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+				    if (this.readyState == 4 && this.status == 200) {
+				       // Typical action to be performed when the document is ready:
+				       document.getElementById("postDetails").innerHTML = xhttp.responseText;
+				    }
+				};
+				xhttp.open('GET', 'GetPost?postid=' + postID, true);
+				xhttp.send();
+			}
 		</script>
 	</body>
 </html>
