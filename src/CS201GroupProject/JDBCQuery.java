@@ -42,7 +42,7 @@ public class JDBCQuery {
 
     // Database credentials
     static final String USER = "root";
-    static final String PASS = "root";
+    static final String PASS = "racecar9";
 
     public static void connect() {
 		try {
@@ -335,7 +335,7 @@ public class JDBCQuery {
 		    ps = conn.prepareStatement("SELECT MAX(postID) FROM Posts");
 		    ResultSet result = ps.executeQuery();
 		    while(result.next()){
-			addPostFollower(result.getInt("MAX(postID)"), userID);
+		    		addPostFollower(result.getInt("MAX(postID)"), userID);
 		    }
 		} catch (SQLException e) {
 		    e.printStackTrace();

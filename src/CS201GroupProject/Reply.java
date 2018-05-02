@@ -1,4 +1,5 @@
-import java.sql.Time;
+package CS201GroupProject;
+
 import java.util.Vector;
 
 public class Reply {
@@ -6,8 +7,8 @@ public class Reply {
     private String reply;
 
     public Reply( int u, String r ) {
-	userID = u;
-	reply = r;
+		userID = u;
+		reply = r;
     }
 
     public int getUserID() {

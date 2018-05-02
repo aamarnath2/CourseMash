@@ -49,7 +49,6 @@
 			
 			//iterate through to display course info
 			<%for (int i = 0; i < allCourses.size(); i++) {%>
-
 				var courseName = "<%=allCourses.get(i).getFullName()%>";
 				var courseID = "<%=allCourses.get(i).getCourseID()%>";
 				var professors = "<%=allCourses.get(i).getProfessor()%>";
